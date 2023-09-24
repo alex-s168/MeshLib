@@ -1,10 +1,11 @@
 plugins {
     kotlin("jvm") version "1.9.0"
     application
+    id("org.jetbrains.dokka") version "1.9.0"
 }
 
-group = "at.alex_s168"
-version = "1.0-SNAPSHOT"
+group = "me.alex_s168"
+version = "0.1"
 
 repositories {
     mavenCentral()
@@ -19,7 +20,7 @@ tasks.test {
 }
 
 kotlin {
-    jvmToolchain(8)
+    jvmToolchain(17)
 }
 
 application {

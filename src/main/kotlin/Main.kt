@@ -1,14 +1,16 @@
-import cad.Units
-import math.Vec3
-import model.Model
-import model.format.STLModelFormat
-import model.shapes.Box
-import model.shapes.PerfectCube
+import me.alex_s168.cad1.cad.Units
+import me.alex_s168.cad1.math.Vec3
+import me.alex_s168.cad1.model.Model
+import me.alex_s168.cad1.model.format.STLModelFormat
+import me.alex_s168.cad1.model.shapes.Box
+import me.alex_s168.cad1.model.shapes.PerfectCube
 
 fun main(args: Array<String>) {
-    val model = Model(STLModelFormat(
-        units=Units.CENTIMETERS
-    ))
+    val model = Model(
+        STLModelFormat(
+            units = Units.CENTIMETERS
+        )
+    )
 
     //val model = Model(
     //    OBJModelFormat(),
