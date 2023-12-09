@@ -82,6 +82,9 @@ open class Vec3 (
     override fun div(other: Float): Vec3 =
         Vec3(x / other, y / other, z / other)
 
+    override fun unaryMinus(): Vec3 =
+        Vec3(-x, -y, -z)
+
 
     override fun cross(other: Vec3): Vec3 =
         Vec3(
@@ -160,4 +163,17 @@ open class Vec3 (
         return t > EPSILON // Ray intersection.
     }
 
+
+    /**
+     * Linearly interpolates between this vector and [other] by [t].
+     */
+    override fun lerp(other: Vec3, t: Float): Vec3 =
+        Vec3(
+            x + (other.x - x) * t,
+            y + (other.y - y) * t,
+            z + (other.z - z) * t
+        )
+
+    override infix fun lerp(other: Pair<Float, Vec3>): Vec3 =
+        lerp(other.second, other.first)
 }

@@ -23,4 +23,32 @@ data class TextureCoordinate(
             v * other.y,
             w * other.z
         )
+
+    override operator fun plus(other: Vec3): TextureCoordinate =
+        TextureCoordinate(
+            u + other.x,
+            v + other.y,
+            w + other.z
+        )
+
+    override operator fun minus(other: Vec3): TextureCoordinate =
+        TextureCoordinate(
+            u - other.x,
+            v - other.y,
+            w - other.z
+        )
+
+    override operator fun div(other: Vec3): TextureCoordinate =
+        TextureCoordinate(
+            u / other.x,
+            v / other.y,
+            w / other.z
+        )
+
+    override operator fun div(other: Float): TextureCoordinate =
+        TextureCoordinate(
+            u / other,
+            v / other,
+            w / other
+        )
 }

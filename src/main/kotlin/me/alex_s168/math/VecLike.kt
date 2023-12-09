@@ -23,6 +23,8 @@ interface VecLike<T> {
     operator fun div(other: Int): T
     operator fun div(other: Float): T
 
+    operator fun unaryMinus(): T
+
     /**
      * Calculates the dot product of this vector and [other].
      */
@@ -42,4 +44,14 @@ interface VecLike<T> {
      * Returns a normalized vector with the same direction as this vector.
      */
     fun normalize(): T
+
+    /**
+     * Linearly interpolates between this vector and [other] by [t].
+     */
+    fun lerp(other: T, t: Float): T
+
+    /**
+     * Linearly interpolates between this vector and [other] by [t].
+     */
+    infix fun lerp(other: Pair<Float, T>): T
 }
