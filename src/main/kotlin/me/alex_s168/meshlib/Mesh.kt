@@ -333,27 +333,6 @@ data class Mesh (
         return HitResult(null, null) // No intersection with any triangle in the mesh.
     }
 
-    /**
-     * Returns an iterator over the faces in the mesh.
-     */
-    override fun iterator(): MutableIterator<Face> = object : MutableIterator<Face> {
-        var iteration = 0
-        override fun hasNext(): Boolean {
-            return iteration < triangleList.size
-        }
-
-        override fun next(): Face {
-            iteration += 1
-            return Face(triangleList[iteration], textureCoordinates[iteration])
-        }
-
-        override fun remove() {
-            triangleList.removeAt(iteration)
-            textureCoordinates.removeAt(iteration)
-            changed()
-        }
-    }
-
     private class MeshListIterator(
         var it: Int = 0,
         val mesh: Mesh
@@ -390,6 +369,15 @@ data class Mesh (
         }
     }
 
+    /**
+     * Returns an iterator over the faces in the mesh.
+     */
+    override fun iterator(): MutableIterator<Face> =
+        MeshListIterator(0, this)
+
+    /**
+     * Returns a list iterator over the faces in the mesh.
+     */
     override fun listIterator(): MutableListIterator<Face> =
         MeshListIterator(0, this)
 
