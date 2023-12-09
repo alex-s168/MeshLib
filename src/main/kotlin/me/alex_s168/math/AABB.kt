@@ -11,6 +11,30 @@ data class AABB (
 ) {
 
     /**
+     * The height of the box.
+     */
+    val height: Float get() =
+        max.y - min.y
+
+    /**
+     * The width of the box.
+     */
+    val width: Float get() =
+        max.x - min.x
+
+    /**
+     * The depth of the box.
+     */
+    val depth: Float get() =
+        max.z - min.z
+
+    /**
+     * A vector representing the size of the box. (width, height, depth)
+     */
+    val size: Vec3 get() =
+        Vec3(width, height, depth)
+
+    /**
      * Returns a string representation of the box.
      */
     override fun toString(): String =
