@@ -343,7 +343,7 @@ data class Mesh (
         }
 
         override fun hasNext(): Boolean =
-            it < mesh.size - 1
+            it < mesh.size
 
         override fun hasPrevious(): Boolean =
             it > 0
