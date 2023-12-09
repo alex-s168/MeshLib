@@ -40,18 +40,11 @@ data class TextureFace(
             c * other
         )
 
-    operator fun plus(other: TextureFace): TextureFace =
+    operator fun div(other: Vec3): TextureFace =
         TextureFace(
-            a + other.a,
-            b + other.b,
-            c + other.c
-        )
-
-    operator fun minus(other: TextureFace): TextureFace =
-        TextureFace(
-            a - other.a,
-            b - other.b,
-            c - other.c
+            a / other,
+            b / other,
+            c / other
         )
 
     operator fun div(other: Float): TextureFace =
@@ -59,5 +52,19 @@ data class TextureFace(
             a / other,
             b / other,
             c / other
+        )
+
+    operator fun plus(other: Vec3): TextureFace =
+        TextureFace(
+            a + other,
+            b + other,
+            c + other
+        )
+
+    operator fun minus(other: Vec3): TextureFace =
+        TextureFace(
+            a - other,
+            b - other,
+            c - other
         )
 }
