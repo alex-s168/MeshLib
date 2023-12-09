@@ -25,4 +25,18 @@ data class TextureFace(
         val u = 1 - v - w
         return Triple(u, v, w)
     }
+
+    operator fun times(other: Float): TextureFace =
+        TextureFace(
+            a * other,
+            b * other,
+            c * other
+        )
+
+    operator fun times(other: Vec3): TextureFace =
+        TextureFace(
+            a * other,
+            b * other,
+            c * other
+        )
 }

@@ -9,4 +9,18 @@ data class TextureCoordinate(
     val u: Float,
     val v: Float = 0f,
     val w: Float = 0f,
-): Vec3(u, v, w)
+): Vec3(u, v, w) {
+    override operator fun times(other: Float): TextureCoordinate =
+        TextureCoordinate(
+            u * other,
+            v * other,
+            w * other
+        )
+
+    override operator fun times(other: Vec3): TextureCoordinate =
+        TextureCoordinate(
+            u * other.x,
+            v * other.y,
+            w * other.z
+        )
+}
