@@ -55,9 +55,16 @@ class OBJModelFormat: ModelFormat {
             if ((line.firstOrNull() ?: ' ') == ' ') continue
 
             if (line.startsWith("o ")) {
-                if (name != "")
-                    throw UnsupportedOperationException("OBJModelFormat does not support multiple objects")
+                if (currg != "") {
+                    groups += ModelRaw(
+                        Mesh(faces.toList()),
+                        currg,
+                        material
+                    )
+                    faces.clear()
+                }
                 name = line.substring(2)
+                currg = name
                 continue
             }
 
