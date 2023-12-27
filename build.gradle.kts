@@ -5,14 +5,21 @@ plugins {
 }
 
 group = "me.alex_s168"
-version = "0.5"
+version = "0.6"
 
 repositories {
     mavenCentral()
+    maven {
+        name = "alex's repo"
+        url = uri("http://207.180.202.42:8080/libs")
+        isAllowInsecureProtocol = true
+    }
 }
 
 dependencies {
     testImplementation(kotlin("test"))
+
+    implementation("me.alex_s168:mathlib:0.4")
 }
 
 tasks.test {

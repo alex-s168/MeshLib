@@ -1,7 +1,7 @@
 package me.alex_s168.meshlib
 
-import me.alex_s168.math.AABB
-import me.alex_s168.math.Vec3
+import me.alex_s168.math.AABB3f
+import me.alex_s168.math.vec.impl.Vec3f
 
 /**
  * Returns the AABB of the given list of triangles.
@@ -9,9 +9,9 @@ import me.alex_s168.math.Vec3
  * @return the AABB of the given list of triangles.
  */
 fun List<Triangle>.aabb() =
-    map { it.getAABB() }
+    map { it.bb }
         .reduceOrNull { a, b -> a with b }
-        ?: AABB(Vec3(), Vec3())
+        ?: AABB3f(Vec3f(), Vec3f())
 
 /**
  * Returns the AABB of the given list of triangles.

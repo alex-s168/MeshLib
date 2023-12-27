@@ -1,7 +1,7 @@
 package me.alex_s168.meshlib.format
 
 import me.alex_s168.cad.Units
-import me.alex_s168.math.Vec3
+import me.alex_s168.math.vec.impl.Vec3f
 import me.alex_s168.meshlib.Mesh
 import me.alex_s168.meshlib.ModelRaw
 import me.alex_s168.meshlib.Triangle
@@ -60,10 +60,10 @@ class STLModelFormat(
         val model = ModelRaw(Mesh(ArrayList(amount), ArrayList(amount)))
 
         for (i in 0..<amount) {
-            val normal = Vec3.from(buf)
-            val a = Vec3.from(buf)
-            val b = Vec3.from(buf)
-            val c = Vec3.from(buf)
+            val normal = Vec3f().also { it.from(buf) }
+            val a = Vec3f().also { it.from(buf) }
+            val b = Vec3f().also { it.from(buf) }
+            val c = Vec3f().also { it.from(buf) }
             buf.getShort() // unused
 
             model.mesh.add(Triangle(normal, a, b, c))
@@ -83,10 +83,10 @@ class STLModelFormat(
 
         buf.putInt(model.mesh.size)
         model.mesh.triangles.forEach { tri ->
-            tri.normal.save(buf)
-            tri.a.save(buf)
-            tri.b.save(buf)
-            tri.c.save(buf)
+            tri.normal.writeTo(buf)
+            tri.a.writeTo(buf)
+            tri.b.writeTo(buf)
+            tri.c.writeTo(buf)
             buf.putShort(0)
         }
     }

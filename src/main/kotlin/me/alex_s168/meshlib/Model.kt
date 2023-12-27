@@ -1,6 +1,6 @@
 package me.alex_s168.meshlib
 
-import me.alex_s168.math.Vec3
+import me.alex_s168.math.vec.impl.Vec3f
 import me.alex_s168.meshlib.format.ModelFormat
 import java.nio.ByteBuffer
 
@@ -70,7 +70,7 @@ data class Model (
     @Suppress("DEPRECATION")
     fun add(tris: TriangleListProvider) {
         raw.mesh.add(tris)
-        raw.mesh.aabbUnsafe = raw.mesh.aabbUnsafe with tris.aabb()
+        raw.mesh.bbUnsafe = raw.mesh.bbUnsafe with tris.aabb()
     }
 
     /**
@@ -91,7 +91,7 @@ data class Model (
      * The corners of the mesh.
      */
     @Suppress("DEPRECATION")
-    val corners: Iterable<Vec3>
+    val corners: Iterable<Vec3f>
         get() =
             raw.mesh.corners
 

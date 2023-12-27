@@ -1,6 +1,6 @@
 package me.alex_s168.meshlib.format
 
-import me.alex_s168.math.Vec3
+import me.alex_s168.math.vec.impl.Vec3f
 import me.alex_s168.meshlib.exception.InvalidModelFileException
 import me.alex_s168.meshlib.texture.TextureCoordinate
 import me.alex_s168.meshlib.texture.TextureFace
@@ -37,9 +37,9 @@ class OBJModelFormat: ModelFormat {
 
     private fun loadFromUnsafe(str: String): ModelLoadContext {
         var name = ""
-        val vertecies = mutableListOf<Vec3>()
+        val vertecies = mutableListOf<Vec3f>()
         val texCords = mutableListOf<TextureCoordinate>()
-        val normals = mutableListOf<Vec3>()
+        val normals = mutableListOf<Vec3f>()
         val faces = mutableListOf<Face>()
 
         val materialLibs = mutableListOf<String>()
@@ -70,10 +70,10 @@ class OBJModelFormat: ModelFormat {
 
             if (line.startsWith("v ")) {
                 val parts = line.substring(2).split(' ')
-                vertecies += Vec3(
-                    parts[0].toFloat(), // x
-                    parts[1].toFloat(), // y
-                    parts[2].toFloat()  // z
+                vertecies += Vec3f(
+                    parts[0].toFloat(),
+                    parts[1].toFloat(),
+                    parts[2].toFloat()
                 )
                 continue
             }
@@ -90,7 +90,7 @@ class OBJModelFormat: ModelFormat {
 
             if (line.startsWith("vn ")) {
                 val parts = line.substring(3).split(' ')
-                normals += Vec3(
+                normals += Vec3f(
                     parts[0].toFloat(),
                     parts[1].toFloat(),
                     parts[2].toFloat()
@@ -102,7 +102,7 @@ class OBJModelFormat: ModelFormat {
                 val parts = line.substring(2).split(' ')
 
                 // returns v, vt, vn
-                fun handlePart(part: String): Triple<Vec3, TextureCoordinate?, Vec3?> {
+                fun handlePart(part: String): Triple<Vec3f, TextureCoordinate?, Vec3f?> {
                     val p = part.split('/')
                     if (p.isEmpty())
                         throw UnsupportedOperationException("OBJModelFormat does not support this line: $line")
@@ -133,7 +133,7 @@ class OBJModelFormat: ModelFormat {
                 val (v2, vt2, vn2) = handlePart(parts[2])
 
                 faces += Face(
-                    Triangle(vn0 ?: Vec3(), v0, v1, v2),
+                    Triangle(vn0 ?: Vec3f(), v0, v1, v2),
                     vt0?.let { TextureFace(vt0, vt1!!, vt2!!) }
                 )
 

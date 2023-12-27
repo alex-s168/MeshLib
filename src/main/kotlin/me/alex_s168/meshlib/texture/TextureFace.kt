@@ -1,16 +1,16 @@
 package me.alex_s168.meshlib.texture
 
-import me.alex_s168.math.Vec3
+import me.alex_s168.math.vec.impl.Vec3f
 
 /**
  * A texture face
  */
 data class TextureFace(
-    val a: TextureCoordinate = TextureCoordinate(0f),
-    val b: TextureCoordinate = TextureCoordinate(0f),
-    val c: TextureCoordinate = TextureCoordinate(0f)
+    val a: TextureCoordinate = TextureCoordinate(),
+    val b: TextureCoordinate = TextureCoordinate(),
+    val c: TextureCoordinate = TextureCoordinate()
 ) {
-    fun getAt(point: Vec3): Triple<Float, Float, Float> {
+    infix fun at(point: Vec3f): Triple<Float, Float, Float> {
         val v0 = b - a
         val v1 = c - a
         val v2 = point - a
@@ -33,14 +33,14 @@ data class TextureFace(
             c * other
         )
 
-    operator fun times(other: Vec3): TextureFace =
+    operator fun times(other: Vec3f): TextureFace =
         TextureFace(
             a * other,
             b * other,
             c * other
         )
 
-    operator fun div(other: Vec3): TextureFace =
+    operator fun div(other: Vec3f): TextureFace =
         TextureFace(
             a / other,
             b / other,
@@ -54,14 +54,14 @@ data class TextureFace(
             c / other
         )
 
-    operator fun plus(other: Vec3): TextureFace =
+    operator fun plus(other: Vec3f): TextureFace =
         TextureFace(
             a + other,
             b + other,
             c + other
         )
 
-    operator fun minus(other: Vec3): TextureFace =
+    operator fun minus(other: Vec3f): TextureFace =
         TextureFace(
             a - other,
             b - other,

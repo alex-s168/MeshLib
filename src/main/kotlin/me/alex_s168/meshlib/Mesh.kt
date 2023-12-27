@@ -1,9 +1,9 @@
 package me.alex_s168.meshlib
 
-import me.alex_s168.math.AABB
-import me.alex_s168.math.HitResult
-import me.alex_s168.math.Ray
-import me.alex_s168.math.Vec3
+import me.alex_s168.math.AABB3f
+import me.alex_s168.math.HitResult3f
+import me.alex_s168.math.Ray3f
+import me.alex_s168.math.vec.impl.Vec3f
 import me.alex_s168.meshlib.texture.TextureFace
 
 /**
@@ -199,17 +199,17 @@ data class Mesh (
      * The axis aligned bounding box of the mesh.
      * Accessing this will return the cached AABB.
      */
-    var aabbUnsafe = AABB(Vec3(), Vec3())
+    var bbUnsafe = AABB3f(Vec3f(), Vec3f())
 
     /**
      * The axis aligned bounding box of the mesh.
      * Accessing this will update the AABB if it is not up-to-date.
      */
-    val aabb: AABB
+    val bb: AABB3f
         get() {
-            if (!changed) return aabbUnsafe
+            if (!changed) return bbUnsafe
             updateAABB()
-            return aabbUnsafe
+            return bbUnsafe
         }
 
     /**
@@ -219,7 +219,7 @@ data class Mesh (
     private fun updateAABB() {
         if (!changed) return
         changed = false
-        aabbUnsafe = triangleList.aabb()
+        bbUnsafe = triangleList.aabb()
     }
 
     /**
@@ -233,9 +233,9 @@ data class Mesh (
      * The corners of the mesh.
      * Accessing this is slow.
      */
-    val corners: Iterable<Vec3>
+    val corners: Iterable<Vec3f>
         get() {
-            val c = mutableSetOf<Vec3>()
+            val c = mutableSetOf<Vec3f>()
             for (tri in triangleList) {
                 c += tri.a
                 c += tri.b
@@ -249,8 +249,8 @@ data class Mesh (
      * @param point The point to check.
      * @return True if the point is inside the mesh, false otherwise.
      */
-    fun isInside(point: Vec3): Boolean {
-        if (!(point inside aabbUnsafe)) return false
+    fun isInside(point: Vec3f): Boolean {
+        if (!(point inside bbUnsafe)) return false
 
         for (triangle in triangleList) {
             if (point inside triangle) return true
@@ -309,7 +309,7 @@ data class Mesh (
      * @param ray The ray to cast.
      * @return The hit point and normal in the form as a HitResult.
      */
-    fun rayCast(ray: Ray): HitResult {
+    fun rayCast(ray: Ray3f): HitResult3f {
         var closestHit: Float? = null
         var hitTriangle: Triangle? = null
 
@@ -327,10 +327,10 @@ data class Mesh (
             val normal = (hitTriangle!!.b - hitTriangle.a)
                 .cross(hitTriangle.c - hitTriangle.a)
                 .normalize()
-            return HitResult(hitPoint, normal)
+            return HitResult3f(hitPoint, normal)
         }
 
-        return HitResult(null, null) // No intersection with any triangle in the mesh.
+        return HitResult3f(null, null) // No intersection with any triangle in the mesh.
     }
 
     private class MeshListIterator(
