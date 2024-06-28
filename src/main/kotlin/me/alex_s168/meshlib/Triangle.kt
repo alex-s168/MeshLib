@@ -19,6 +19,9 @@ data class Triangle (
     val c: Vec3f
 ): EnclosedVolume3 {
 
+    override fun toString() =
+        "Triangle([$a, $b, $c], $normal)"
+
     /**
      * Computes the AABB of the triangle if it has not been computed yet.
      * @return AABB of the triangle.

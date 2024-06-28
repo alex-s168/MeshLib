@@ -12,6 +12,15 @@ import java.nio.FloatBuffer
 class TextureCoordinate(
     var vec: Vec3f
 ): FloatVecLike<TextureCoordinate> {
+    override fun hashCode(): Int =
+        vec.hashCode()
+
+    override fun equals(other: Any?): Boolean =
+        other is TextureCoordinate && vec == other.vec
+
+    override fun toString() =
+        "$vec"
+
     override val size: Int
         get() = 3
 

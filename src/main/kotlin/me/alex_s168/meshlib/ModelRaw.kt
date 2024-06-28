@@ -17,5 +17,8 @@ data class ModelRaw (
     /**
      * The material of the model.
      */
-    var material: String = ""
-)
+    var material: String? = null
+) {
+    override fun toString() =
+        "($mesh\nname = $name\nmaterial = $material)"
+}

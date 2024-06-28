@@ -10,6 +10,9 @@ data class TextureFace(
     val b: TextureCoordinate = TextureCoordinate(),
     val c: TextureCoordinate = TextureCoordinate()
 ) {
+    override fun toString() =
+        "TextureFace($a, $b, $c)"
+
     infix fun at(point: Vec3f): Triple<Float, Float, Float> {
         val v0 = b - a
         val v1 = c - a

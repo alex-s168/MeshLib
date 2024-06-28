@@ -99,7 +99,7 @@ data class Model (
      * The name of the material of the model.
      */
     @Suppress("DEPRECATION")
-    var material: String
+    var material: String?
         get() =
             raw.material
 

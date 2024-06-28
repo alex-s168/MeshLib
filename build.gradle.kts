@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "me.alex_s168"
-version = "0.6"
+version = "0.7"
 
 repositories {
     mavenCentral()
@@ -19,7 +19,7 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
 
-    implementation("me.alex_s168:mathlib:0.4")
+    implementation("me.alex_s168:mathlib:0.5h6")
 }
 
 tasks.test {
@@ -32,4 +32,24 @@ kotlin {
 
 application {
     mainClass.set("TestKt")
+}
+
+tasks {
+    val sourcesJar by registering(Jar::class) {
+        dependsOn(JavaPlugin.CLASSES_TASK_NAME)
+        archiveClassifier.set("sources")
+        from(sourceSets["main"].allSource)
+    }
+
+    val javadocJar by registering(Jar::class) {
+        dependsOn("dokkaJavadoc")
+        archiveClassifier.set("javadoc")
+        from(javadoc)
+    }
+
+    artifacts {
+        archives(sourcesJar)
+        archives(javadocJar)
+        archives(jar)
+    }
 }

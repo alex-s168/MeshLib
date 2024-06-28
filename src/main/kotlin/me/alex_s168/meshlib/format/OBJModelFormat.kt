@@ -12,7 +12,7 @@ import java.nio.ByteBuffer
  * The OBJ model format.
  * This model supports saving and size ESTIMATION
  */
-class OBJModelFormat: ModelFormat {
+class OBJModelFormat @Deprecated("", replaceWith = ReplaceWith("Format.OBJ")) constructor () : ModelFormat {
 
     override fun getName(): String =
         "OBJ"
@@ -43,7 +43,7 @@ class OBJModelFormat: ModelFormat {
         val faces = mutableListOf<Face>()
 
         val materialLibs = mutableListOf<String>()
-        var material = ""
+        var material: String? = null
 
         val groups = mutableSetOf<ModelRaw>()
         var currg = ""
@@ -155,11 +155,13 @@ class OBJModelFormat: ModelFormat {
 
             // shading is not implemented
             if (line.startsWith("s ")) {
+                // TODO: make tri param shaded
                 continue
             }
 
-            if (line.startsWith("usemtl ")) {
-                material = line.substring(7)
+            if (line.startsWith("usemtl")) {
+                val c = line.substring(6)
+                material = if (c.isEmpty()) null else c.substring(1)
                 continue
             }
 

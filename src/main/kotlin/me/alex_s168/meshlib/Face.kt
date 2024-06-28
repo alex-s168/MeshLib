@@ -15,4 +15,7 @@ data class Face(
      * The texture coordinate of the face.
      */
     val tex: TextureFace?
-)
+) {
+    override fun toString() =
+        "($tri, $tex)"
+}

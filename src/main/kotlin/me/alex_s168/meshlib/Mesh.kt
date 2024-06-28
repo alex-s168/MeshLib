@@ -26,6 +26,9 @@ data class Mesh (
 
 ): TriangleListProvider, MutableList<Face> {
 
+    override fun toString() =
+        "[${joinToString("\n")}]"
+
     /**
      * Creates a new mesh with the specified triangles.
      */
