@@ -36,7 +36,6 @@ class OBJModelFormat @Deprecated("", replaceWith = ReplaceWith("Format.OBJ")) co
     }
 
     private fun loadFromUnsafe(str: String): ModelLoadContext {
-        var name = ""
         val vertecies = mutableListOf<Vec3f>()
         val texCords = mutableListOf<TextureCoordinate>()
         val normals = mutableListOf<Vec3f>()
@@ -54,8 +53,8 @@ class OBJModelFormat @Deprecated("", replaceWith = ReplaceWith("Format.OBJ")) co
             if (line.firstOrNull() == '#') continue
             if ((line.firstOrNull() ?: ' ') == ' ') continue
 
-            if (line.startsWith("o ")) {
-                if (currg != "") {
+            if (line.startsWith("o ") || line.startsWith("g ")) {
+                if (faces.isNotEmpty()) {
                     groups += ModelRaw(
                         Mesh(faces.toList()),
                         currg,
@@ -63,8 +62,7 @@ class OBJModelFormat @Deprecated("", replaceWith = ReplaceWith("Format.OBJ")) co
                     )
                     faces.clear()
                 }
-                name = line.substring(2)
-                currg = name
+                currg = line.substring(2)
                 continue
             }
 
@@ -140,19 +138,6 @@ class OBJModelFormat @Deprecated("", replaceWith = ReplaceWith("Format.OBJ")) co
                 continue
             }
 
-            if (line.startsWith("g ")) {
-                if (currg != "") {
-                    groups += ModelRaw(
-                        Mesh(faces.toList()),
-                        currg,
-                        material
-                    )
-                    faces.clear()
-                }
-                currg = line.substring(2)
-                continue
-            }
-
             // shading is not implemented
             if (line.startsWith("s ")) {
                 // TODO: make tri param shaded
@@ -173,11 +158,13 @@ class OBJModelFormat @Deprecated("", replaceWith = ReplaceWith("Format.OBJ")) co
             throw UnsupportedOperationException("OBJModelFormat does not support this line: $line")
         }
 
-        groups += ModelRaw(
-            Mesh(faces),
-            currg,
-            material
-        )
+        if (faces.isNotEmpty()) {
+            groups += ModelRaw(
+                Mesh(faces),
+                currg,
+                material
+            )
+        }
 
         return ModelLoadContext(
             groups,

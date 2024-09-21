@@ -60,41 +60,40 @@ data class Triangle (
      * @param ray Ray to check for intersection.
      * @return Distance to the intersection point or null if there is no intersection.
      */
-    fun rayCast(ray: Ray3f): Float? {
-        val epsilon = 1e-8f
-
+    fun rayCast(ray: Ray3f): Float? { // chatgpt
+        // Find vectors for two edges sharing a
         val edge1 = b - a
         val edge2 = c - a
 
-        val h = ray.direction.cross(edge2)
-        val va = edge1.dot(h)
+        // Begin calculating determinant - also used to calculate U parameter
+        val pvec = ray.direction.cross(edge2)
 
-        if (kotlin.math.abs(va) < epsilon) {
-            return null // Ray is parallel to the triangle.
-        }
+        // If determinant is near zero, ray lies in plane of triangle
+        val det = edge1.dot(pvec)
 
-        val f = 1.0f / va
-        val s = ray.origin - a
-        val u = f * s.dot(h)
+        // Return null if the triangle is degenerate (avoid division by zero)
+        if (det < 1e-8 && det > -1e-8) return null
 
-        if (u < 0.0f || u > 1.0f) {
-            return null // Intersection is outside the triangle.
-        }
+        val invDet = 1.0f / det
 
-        val q = s.cross(edge1)
-        val v = f * ray.direction.dot(q)
+        // Calculate distance from vertex a to ray origin
+        val tvec = ray.origin - a
 
-        if (v < 0.0f || u + v > 1.0f) {
-            return null // Intersection is outside the triangle.
-        }
+        // Calculate U parameter and test bounds
+        val u = tvec.dot(pvec) * invDet
+        if (u < 0.0f || u > 1.0f) return null
 
-        val t = f * edge2.dot(q)
+        // Prepare to test V parameter
+        val qvec = tvec.cross(edge1)
 
-        if (t > epsilon) {
-            return t // Intersection along the ray direction.
-        }
+        // Calculate V parameter and test bounds
+        val v = ray.direction.dot(qvec) * invDet
+        if (v < 0.0f || u + v > 1.0f) return null
 
-        return null // Intersection is behind the ray origin.
+        // Calculate t, the distance along the ray to the intersection point
+        val t = edge2.dot(qvec) * invDet
+
+        return t
     }
 
 }
